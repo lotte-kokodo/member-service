@@ -1,4 +1,4 @@
-package shop.kokodo.memberservice.vo;
+package shop.kokodo.memberservice.vo.Response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

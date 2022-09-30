@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import shop.kokodo.memberservice.dto.MemberDto;
 import shop.kokodo.memberservice.service.MemberService;
-import shop.kokodo.memberservice.vo.RequestMember;
-import shop.kokodo.memberservice.vo.ResponseMember;
+import shop.kokodo.memberservice.vo.Request.RequestMember;
+import shop.kokodo.memberservice.vo.Response.ResponseMember;
 
 @RestController
 @RequestMapping("/")

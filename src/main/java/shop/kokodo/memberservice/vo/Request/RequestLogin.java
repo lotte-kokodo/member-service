@@ -1,4 +1,4 @@
-package shop.kokodo.memberservice.vo;
+package shop.kokodo.memberservice.vo.Request;
 
 import lombok.Data;
 
