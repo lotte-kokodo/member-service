@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import shop.kokodo.memberservice.dto.MemberDto;
 import shop.kokodo.memberservice.service.MemberService;
-import shop.kokodo.memberservice.vo.RequestLogin;
+import shop.kokodo.memberservice.vo.Request.RequestLogin;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -70,13 +70,13 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
          */
         String token = Jwts.builder()
                 .signWith(SignatureAlgorithm.HS512, env.getProperty("token.secret"))
-                .setSubject(memberDto.getLoginId())
+                .setSubject(memberDto.getId().toString())
                 .setExpiration(new Date(System.currentTimeMillis() +
                         Long.parseLong(env.getProperty("token.expiration_time"))))
                 .compact();
 
         // 헤더에 토큰 및 ID 저장.
         response.addHeader("token", token);
-        response.addHeader("memberId", memberDto.getLoginId());
+        response.addHeader("memberId", memberDto.getId().toString());
     }
 }
