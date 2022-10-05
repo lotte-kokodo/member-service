@@ -7,5 +7,5 @@ import shop.kokodo.memberservice.entity.Member;
 public interface MemberService extends UserDetailsService {
     MemberDto createMember(MemberDto userDto);
     MemberDto getMemberByLoginId(String userId);
-    MemberDto getMemberDetailsByEmail(String userName);
+    MemberDto getMemberById(long id);
 }

@@ -1,13 +1,13 @@
 package shop.kokodo.memberservice.vo.Request;
 
-import lombok.Data;
-import lombok.Value;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
+@NoArgsConstructor
 public class RequestMember {
 
     private String loginId;
@@ -42,4 +42,17 @@ public class RequestMember {
     @NotNull(message = "grade cannot be null")
     @Size(min = 2, message = "grade not be less than two characters")
     private String grade;
+
+    @Builder
+    public RequestMember(String loginId, String name, String email, String password, String birthday, String profileImageUrl, String phoneNumber, String address, String grade) {
+        this.loginId = loginId;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.birthday = birthday;
+        this.profileImageUrl = profileImageUrl;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.grade = grade;
+    }
 }
