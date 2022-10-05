@@ -4,16 +4,17 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import shop.kokodo.memberservice.dto.MemberDto;
+import shop.kokodo.memberservice.dto.response.Response;
 import shop.kokodo.memberservice.service.MemberService;
 import shop.kokodo.memberservice.vo.Request.RequestMember;
+import shop.kokodo.memberservice.vo.Request.RequestReview;
 import shop.kokodo.memberservice.vo.Response.ResponseMember;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/member")
 public class MemberController {
     private Environment env;
     private MemberService memberService;
@@ -24,32 +25,45 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    //JWT CHECK
-    @GetMapping("/health_check")
-    public String status() {
-        return String.format("It's Working in User Service on PORT %s", env.getProperty("local.server.port"));
-    }
-
     //회원가입
     @PostMapping("/signup")
-    public ResponseEntity<ResponseMember> createUser(@RequestBody RequestMember member) {
+    public Response createUser(@RequestBody RequestMember member) {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-
         MemberDto memberDto = mapper.map(member, MemberDto.class);
+
         memberService.createMember(memberDto);
 
-        ResponseMember responseUser = mapper.map(memberDto, ResponseMember.class);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
+        return Response.success();
     }
 
-    //마이페이지
-    @GetMapping("/member/{memberId}")
-    public ResponseEntity<ResponseMember> getUser(@PathVariable("memberId") String loginId) {
+    // 아이디 중복 확인
+    @GetMapping("/signup/{loginId}")
+    public Response checkId(@PathVariable("loginId") String loginId) {
         MemberDto memberDto = memberService.getMemberByLoginId(loginId);
 
+        if (memberDto.getId() == null || memberDto.getLoginId().equals("")) {
+            return Response.success("success");
+        } else {
+            return Response.success("overlap");
+        }
+    }
+
+    // 마이페이지
+    @GetMapping("/myPage/{memberId}")
+    public Response getUser(@PathVariable("memberId") long id) {
+        MemberDto memberDto = memberService.getMemberById(id);
         ResponseMember returnValue = new ModelMapper().map(memberDto, ResponseMember.class);
-        return ResponseEntity.status(HttpStatus.OK).body(returnValue);
+
+        return Response.success(returnValue);
+    }
+
+    // 상품디테일 리뷰 작성자 요청 API
+    @GetMapping("/productDetail/{memberId}")
+    public Response getProductDetailReview(@PathVariable("memberId") long id) {
+        MemberDto memberDto = memberService.getMemberById(id);
+        RequestReview requestReview = new RequestReview(memberDto.getLoginId(), memberDto.getProfileImageUrl());
+
+        return Response.success(requestReview);
     }
 }

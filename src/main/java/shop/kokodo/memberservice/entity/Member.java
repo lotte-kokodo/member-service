@@ -1,38 +1,46 @@
 package shop.kokodo.memberservice.entity;
 
 import lombok.*;
+import org.springframework.stereotype.Service;
+
 import javax.persistence.*;
 
-@Data
+
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
+@ToString
 @Table(name = "member")
 public class Member extends BaseTimeEntity{
 
     @Id @GeneratedValue
     @Column(name = "member_id")
     private Long id;
-
     @Column(nullable = false, unique = true)
     private String loginId;
-    @Column(nullable = false)
     private String name;
-    @Column(nullable = false, unique = true)
     private String email;
-    @Column(nullable = false)
     private String password;
-
-    @Column(nullable = false)
     private String birthday;
-
     private String profileImageUrl;
-    @Column(nullable = false)
     private String phoneNumber;
-    @Column(nullable = false)
     private String address;
     private String grade;
-
-    @Column(nullable = false, unique = true)
     private String encryptedPwd;
+
+    @Builder
+    public Member(Long id, String loginId, String name, String email, String password, String birthday, String profileImageUrl, String phoneNumber, String address, String grade, String encryptedPwd) {
+        this.id = id;
+        this.loginId = loginId;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.birthday = birthday;
+        this.profileImageUrl = profileImageUrl;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.grade = grade;
+        this.encryptedPwd = encryptedPwd;
+    }
 }

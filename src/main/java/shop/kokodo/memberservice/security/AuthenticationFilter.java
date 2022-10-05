@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import shop.kokodo.memberservice.dto.MemberDto;
 import shop.kokodo.memberservice.service.MemberService;
@@ -70,7 +71,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
          */
         String token = Jwts.builder()
                 .signWith(SignatureAlgorithm.HS512, env.getProperty("token.secret"))
-                .setSubject(memberDto.getId().toString())
+                .setSubject(memberDto.getLoginId())
                 .setExpiration(new Date(System.currentTimeMillis() +
                         Long.parseLong(env.getProperty("token.expiration_time"))))
                 .compact();

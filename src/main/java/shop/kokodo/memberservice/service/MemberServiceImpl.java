@@ -31,6 +31,7 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
         Member member = memberRepository.findByLoginId(loginId);
+
         if(member == null){
             throw new UsernameNotFoundException("Member not found");
         }
@@ -45,8 +46,8 @@ public class MemberServiceImpl implements MemberService{
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         Member member = mapper.map(memberDto, Member.class);
-        member.setEncryptedPwd(passwordEncoder.encode(memberDto.getPassword()));
 
+        member.setEncryptedPwd(passwordEncoder.encode(memberDto.getPassword()));
         memberRepository.save(member);
         MemberDto returnMemberDto = mapper.map(member,MemberDto.class);
 
@@ -56,20 +57,19 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public MemberDto getMemberByLoginId(String loginId) {
         Member member = memberRepository.findByLoginId(loginId);
-
-        if(member == null){
-            throw new UsernameNotFoundException("Member not found");
-        }
+        if(member == null) return new MemberDto();
 
         MemberDto memberDto = new ModelMapper().map(member,MemberDto.class);
         return memberDto;
     }
 
     @Override
-    public MemberDto getMemberDetailsByEmail(String email) {
-        Member member = memberRepository.findByEmail(email);
+    public MemberDto getMemberById(long id) {
+        Member member = memberRepository.findById(id).orElse(new Member());
 
-        if(member == null) throw new UsernameNotFoundException(email);
+        if(member == null){
+            throw new UsernameNotFoundException("Member not found");
+        }
 
         MemberDto memberDto = new ModelMapper().map(member,MemberDto.class);
         return memberDto;
