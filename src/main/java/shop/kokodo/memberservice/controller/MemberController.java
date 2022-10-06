@@ -1,10 +1,10 @@
 package shop.kokodo.memberservice.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import shop.kokodo.memberservice.dto.MemberDto;
 import shop.kokodo.memberservice.dto.response.Response;
@@ -32,9 +32,13 @@ public class MemberController {
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         MemberDto memberDto = mapper.map(member, MemberDto.class);
 
-        memberService.createMember(memberDto);
+        memberDto = memberService.createMember(memberDto);
 
-        return Response.success();
+        if (memberDto.getId() == null || memberDto.getLoginId().equals("")) {
+            return Response.failure(401,"fail");
+        } else {
+            return Response.success("success");
+        }
     }
 
     // 아이디 중복 확인
