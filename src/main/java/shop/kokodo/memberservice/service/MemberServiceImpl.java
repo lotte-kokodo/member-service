@@ -1,5 +1,6 @@
 package shop.kokodo.memberservice.service;
 
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -74,4 +75,16 @@ public class MemberServiceImpl implements MemberService{
         MemberDto memberDto = new ModelMapper().map(member,MemberDto.class);
         return memberDto;
     }
+
+    @Override
+    public MemberDto getOrderMemberInfo(long id) {
+        Optional<Member> member = memberRepository.findById(id);
+
+        if (member.isEmpty()) {
+            throw new UsernameNotFoundException("Member not found");
+        }
+
+        return new ModelMapper().map(member.get(), MemberDto.class);
+    }
+
 }

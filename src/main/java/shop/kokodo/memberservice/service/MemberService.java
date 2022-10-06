@@ -8,4 +8,5 @@ public interface MemberService extends UserDetailsService {
     MemberDto createMember(MemberDto userDto);
     MemberDto getMemberByLoginId(String userId);
     MemberDto getMemberById(long id);
+    MemberDto getOrderMemberInfo(long id);
 }
