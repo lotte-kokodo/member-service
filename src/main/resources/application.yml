@@ -13,15 +13,22 @@ server:
 spring:
   application:
     name: user-service
+#  datasource:
+#    url: jdbc:h2:tcp://localhost/~/user-service
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
   datasource:
-    url: jdbc:h2:tcp://localhost/~/user-service
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/kokodo?characterEncoding=utf8&serverTimezone=Asia/Seoul
+    username: root
+    password: 1234 #BITBIT123
 
   jpa:
     hibernate:
       ddl-auto: create
+    defer-datasource-initialization: true
+
     properties:
       hibernate:
         # show_sql: true
