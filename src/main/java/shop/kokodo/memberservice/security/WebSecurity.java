@@ -28,9 +28,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().httpBasic().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeRequests().antMatchers("/**").permitAll()
+                .and()
+                .authorizeRequests().antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
-                .and().addFilter(getAuthenticationFilter());
+                .and()
+                .addFilter(getAuthenticationFilter());
 
         //클릭재킹 끄기
         http.headers().frameOptions().disable();

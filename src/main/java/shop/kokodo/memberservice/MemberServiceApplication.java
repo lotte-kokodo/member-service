@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
-//@EnableJpaAuditing
+@EnableJpaAuditing
 public class MemberServiceApplication {
 
     public static void main(String[] args) {
