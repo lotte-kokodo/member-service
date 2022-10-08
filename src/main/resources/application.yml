@@ -3,7 +3,7 @@ server:
 
 #eureka:
 #  instance:
-#    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+#    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
 #  client:
 #    register-with-eureka: true
 #    fetch-registry: true
@@ -22,7 +22,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/kokodo?characterEncoding=utf8&serverTimezone=Asia/Seoul
     username: root
-    password: 1234 #BITBIT123
+    password: BITBIT123 #1234
 
   jpa:
     hibernate:

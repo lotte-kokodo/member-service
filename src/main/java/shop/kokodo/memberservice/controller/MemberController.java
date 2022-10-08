@@ -11,6 +11,7 @@ import shop.kokodo.memberservice.dto.response.Response;
 import shop.kokodo.memberservice.service.MemberService;
 import shop.kokodo.memberservice.vo.Request.RequestMember;
 import shop.kokodo.memberservice.vo.Request.RequestReview;
+import shop.kokodo.memberservice.vo.Request.RequestUpdateMember;
 import shop.kokodo.memberservice.vo.Response.ResponseMember;
 
 @RestController
@@ -60,6 +61,22 @@ public class MemberController {
         ResponseMember returnValue = new ModelMapper().map(memberDto, ResponseMember.class);
 
         return Response.success(returnValue);
+    }
+
+    // 마이페이지 수정
+    @PostMapping("/myPage")
+    public Response getUser(@RequestBody RequestUpdateMember member) {
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        MemberDto memberDto = mapper.map(member, MemberDto.class);
+
+        memberDto = memberService.createMember(memberDto);
+
+        if (memberDto.getId() == null || memberDto.getLoginId().equals("")) {
+            return Response.failure(401,"fail");
+        } else {
+            return Response.success("success");
+        }
     }
 
     // 상품디테일 리뷰 작성자 요청 API
