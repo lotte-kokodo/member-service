@@ -24,4 +24,9 @@ public class MemberFeignController {
     public FeignResponse.MemberAddress getMemberAddress(@RequestHeader Long memberId) {
         return memberFeignService.getMemberAddress(memberId);
     }
+
+    @GetMapping("/orderInfo")
+    public FeignResponse.MemberOfOrderSheet getMemberOrderInfo(@RequestHeader Long memberId) {
+        return memberFeignService.getMemberOrderInfo(memberId);
+    }
 }
