@@ -38,9 +38,13 @@ public class MemberController {
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         MemberDto memberDto = mapper.map(member, MemberDto.class);
 
-        memberService.createMember(memberDto);
+        memberDto = memberService.createMember(memberDto);
 
-        return Response.success();
+        if (memberDto.getId() == null || memberDto.getLoginId().equals("")) {
+            return Response.failure(401,"fail");
+        } else {
+            return Response.success("success");
+        }
     }
 
     // 아이디 중복 확인
