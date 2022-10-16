@@ -1,6 +1,6 @@
 package shop.kokodo.memberservice.service;
 
-import java.util.Optional;
+import java.util.ArrayList;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -11,10 +11,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import shop.kokodo.memberservice.dto.MemberDto;
+import shop.kokodo.memberservice.dto.MemberResponse;
+import shop.kokodo.memberservice.dto.MemberResponse.MemberDeliveryInfo;
+import shop.kokodo.memberservice.dto.MemberResponse.MemberOfOrderSheet;
 import shop.kokodo.memberservice.entity.Member;
 import shop.kokodo.memberservice.repository.MemberRepository;
-
-import java.util.ArrayList;
 
 @Service
 @Slf4j
@@ -77,14 +78,12 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public MemberDto getOrderMemberInfo(long id) {
-        Optional<Member> member = memberRepository.findById(id);
-
-        if (member.isEmpty()) {
-            throw new UsernameNotFoundException("Member not found");
-        }
-
-        return new ModelMapper().map(member.get(), MemberDto.class);
+    public MemberResponse.MemberDeliveryInfo getMemberDeliveryInfo(Long memberId) {
+        return memberRepository.findById(memberId, MemberDeliveryInfo.class);
     }
 
+    @Override
+    public MemberResponse.MemberOfOrderSheet getMemberOrderInfo(Long memberId) {
+        return memberRepository.findById(memberId, MemberOfOrderSheet.class);
+    }
 }

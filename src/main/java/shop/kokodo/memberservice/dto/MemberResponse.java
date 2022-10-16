@@ -1,10 +1,11 @@
-package shop.kokodo.memberservice.feign.response;
+package shop.kokodo.memberservice.dto;
 
-public class FeignResponse {
+public class MemberResponse {
 
-    public interface MemberAddress {
+    public interface MemberDeliveryInfo {
 
         String getAddress();
+        String getName();
 
     }
 
@@ -16,5 +17,4 @@ public class FeignResponse {
         String getAddress();
 
     }
-
 }
