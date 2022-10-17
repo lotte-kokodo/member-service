@@ -70,11 +70,11 @@ public class MemberController {
 
     // 상품디테일 리뷰 작성자 요청 API
     @GetMapping("/productDetail/{memberId}")
-    public Response getProductDetailReview(@PathVariable("memberId") long id) {
+    public RequestReview getProductDetailReview(@PathVariable("memberId") long id) {
         MemberDto memberDto = memberService.getMemberById(id);
         RequestReview requestReview = new RequestReview(memberDto.getLoginId(), memberDto.getProfileImageUrl());
-
-        return Response.success(requestReview);
+        // feign return data만
+        return requestReview;
     }
 
     // [ 장바구니 ] 배송지 정보 (사용자 주소) 요청 API
