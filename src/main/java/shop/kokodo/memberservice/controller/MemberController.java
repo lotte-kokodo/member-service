@@ -67,7 +67,7 @@ public class MemberController {
     public RequestReview getProductDetailReview(@PathVariable("memberId") long id) {
         MemberDto memberDto = memberService.getMemberById(id);
         RequestReview requestReview = new RequestReview(memberDto.getLoginId(), memberDto.getProfileImageUrl());
-
+        // feign return data만
         return requestReview;
     }
 }
