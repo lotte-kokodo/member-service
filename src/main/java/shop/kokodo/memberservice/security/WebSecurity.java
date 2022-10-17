@@ -37,6 +37,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
     // Security 설정 로직
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http.csrf().disable()
                 .httpBasic().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -54,8 +55,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource(){
+        // TODO: 테스트용 CORS 설정, 배포 시 변경 필요
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:9090");
+        configuration.addAllowedOrigin("http://localhost:3000");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.addExposedHeader("*"); // 모든걸 허용함
