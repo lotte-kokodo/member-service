@@ -64,10 +64,10 @@ public class MemberController {
 
     // 상품디테일 리뷰 작성자 요청 API
     @GetMapping("/productDetail/{memberId}")
-    public Response getProductDetailReview(@PathVariable("memberId") long id) {
+    public RequestReview getProductDetailReview(@PathVariable("memberId") long id) {
         MemberDto memberDto = memberService.getMemberById(id);
         RequestReview requestReview = new RequestReview(memberDto.getLoginId(), memberDto.getProfileImageUrl());
 
-        return Response.success(requestReview);
+        return requestReview;
     }
 }
