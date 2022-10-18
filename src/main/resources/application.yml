@@ -1,28 +1,15 @@
 server:
-  port: 8080
-
-#eureka:
-#  instance:
-#    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
-#  client:
-#    register-with-eureka: true
-#    fetch-registry: true
-#    service-url:
-#      defaultZone: http://127.0.0.1:8761/eureka
+  port: 0
 
 spring:
   application:
-    name: user-service
-#  datasource:
-#    url: jdbc:h2:tcp://localhost/~/user-service
-#    username: sa
-#    password:
-#    driver-class-name: org.h2.Driver
+    name: member-service
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/kokodo?characterEncoding=utf8&serverTimezone=Asia/Seoul
     username: root
-    password: BITBIT123 #1234
+    password: BITBIT123
 
   jpa:
     hibernate:
@@ -31,8 +18,23 @@ spring:
 
     properties:
       hibernate:
-        # show_sql: true
+        show-sql: true
         format_sql: true
+  #        hbm2ddl:
+  #          auto: update
+  sql:
+    init:
+      mode: always
+
+eureka:
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:9001/eureka
 
 logging:
   level:
@@ -43,3 +45,4 @@ logging:
 token:
   expiration_time: 86400000
   secret: member_token
+
