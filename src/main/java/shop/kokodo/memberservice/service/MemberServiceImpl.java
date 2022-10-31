@@ -1,6 +1,8 @@
 package shop.kokodo.memberservice.service;
 
 import java.util.ArrayList;
+import java.util.Optional;
+
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -86,5 +88,10 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public MemberResponse.MemberOfOrderSheet getMemberOrderInfo(Long memberId) {
         return memberRepository.findById(memberId, MemberOfOrderSheet.class);
+    }
+
+    @Override
+    public Optional<Member> getMember(Long memberId) {
+        return memberRepository.findById(memberId);
     }
 }
