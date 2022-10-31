@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import shop.kokodo.memberservice.dto.MemberDto;
 import shop.kokodo.memberservice.dto.MemberResponse;
@@ -44,6 +45,7 @@ public class MemberServiceImpl implements MemberService{
                 new ArrayList<>());
     }
 
+    @Transactional
     @Override
     public MemberDto createMember(@RequestBody MemberDto memberDto) {
         ModelMapper mapper = new ModelMapper();
@@ -56,7 +58,7 @@ public class MemberServiceImpl implements MemberService{
 
         return returnMemberDto;
     }
-
+    @Transactional(readOnly = true)
     @Override
     public MemberDto getMemberByLoginId(String loginId) {
         Member member = memberRepository.findByLoginId(loginId);
