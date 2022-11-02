@@ -1,0 +1,46 @@
+server:
+  port: 0 # Eureka 로부터 자동 포트 부여
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+spring:
+  application:
+    name: member-service
+
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+  datasource:
+    driver-class-name:
+    url:
+    slave-list:
+      - name: slave-1
+        url:
+      - name: slave-2
+        url:
+    username:
+    password:
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, busresfresh, beans
+
+token:
+  expiration_time: 86400000
+  secret: member_token
