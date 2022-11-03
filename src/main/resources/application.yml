@@ -9,6 +9,13 @@ spring:
   application:
     name: member-service
 
+  zipkin:
+    base-url: http://zipkin:9411
+    enabled: true
+  sleuth:
+    sampler:
+      probability: 1.0
+
   rabbitmq:
     host: rabbitmq
     port: 5672
