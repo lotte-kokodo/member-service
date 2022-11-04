@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import shop.kokodo.memberservice.dto.MemberDto;
 import shop.kokodo.memberservice.dto.MemberResponse;
 import shop.kokodo.memberservice.dto.response.Response;
@@ -108,5 +112,13 @@ public class MemberController {
     public Response getMemberOrderInfo(@RequestHeader Long memberId) {
         MemberResponse.MemberOfOrderSheet data = memberService.getMemberOrderInfo(memberId);
         return Response.success(data);
+    }
+
+    // user id로 유효성 확인용 API
+    @GetMapping("/id")
+    public ResponseEntity getMemberById(@RequestParam(value = "memberId") Long memberId){
+        boolean flag = memberService.getMember(memberId).isEmpty()? false : true;
+
+        return ResponseEntity.status(HttpStatus.OK).body(flag);
     }
 }
