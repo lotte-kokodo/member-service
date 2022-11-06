@@ -29,13 +29,17 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-//    implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
+    //zipkin
 //    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 //    implementation 'org.springframework.cloud:spring-cloud-starter-zipkin:2.2.3.RELEASE'
+    //eureka
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    //mysql,h2
     implementation 'mysql:mysql-connector-java:8.0.30'
+    implementation 'com.h2database:h2:2.1.214'
+    //feign
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-
+    //format
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.7.4'
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
@@ -43,6 +47,11 @@ dependencies {
 
     compileOnly 'org.springframework.boot:spring-boot-starter-security'
     compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'com.h2database:h2'
+    // 테스트 의존성 추가
+    testCompileOnly 'com.h2database:h2:2.1.214'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
     testImplementation group: 'org.springframework.restdocs', name: 'spring-restdocs-mockmvc', version: '2.0.4.RELEASE'
