@@ -62,7 +62,7 @@ public class MemberController {
         if (memberDto.getId() == null || memberDto.getLoginId().equals("")) {
             return Response.success("아이디 중복이 아닙니다.");
         } else {
-            return Response.success("아이디 중복입니다.");
+            return Response.failure(-1001,"아이디 중복입니다.");
         }
     }
 
@@ -85,13 +85,13 @@ public class MemberController {
         memberDto = memberService.createMember(memberDto);
 
         if (memberDto.getId() == null || memberDto.getLoginId().equals("")) {
-            return Response.failure(401,"fail");
+            return Response.failure(-1002,"회원 업데이트 실패");
         } else {
             return Response.success("success");
         }
     }
 
-    // 상품디테일 리뷰 작성자 요청 API
+    // 상품상세 리뷰를 위한 회원 아이디 및 프로필 주소 조회
     @GetMapping("/productDetail/{memberId}")
     public ResponseEntity getProductDetailReview(@PathVariable("memberId") long id) {
         MemberDto memberDto = memberService.getMemberById(id);

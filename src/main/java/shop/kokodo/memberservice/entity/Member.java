@@ -1,6 +1,7 @@
 package shop.kokodo.memberservice.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
@@ -19,13 +20,20 @@ public class Member extends BaseTimeEntity {
     private Long id;
     @Column(nullable = false, unique = true)
     private String loginId;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String email;
+    @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
     private String birthday;
     private String profileImageUrl;
+    @Column(nullable = false)
     private String phoneNumber;
+    @Column(nullable = false)
     private String address;
+    @Column(nullable = false)
     private String grade;
     private String encryptedPwd;
 

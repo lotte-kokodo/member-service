@@ -76,8 +76,7 @@ class MemberServiceImplTest {
         //when
         MemberDto returnMemberDto = memberServiceImpl.createMember(memberDto);
 
-        //then
-        assertThat(returnMemberDto.getLoginId()).isEqualTo(member.getLoginId());
+        //then (평문 비밀번호가 서로 같은데 암호화 된 비밀번호가 다른지 확인)
         assertThat(encoder.matches(returnMemberDto.getPassword(),member.getPassword())).isFalse();
 
         // verify
@@ -109,7 +108,6 @@ class MemberServiceImplTest {
         // when
         final MemberDto memberDto1 = memberServiceImpl.getMemberById(member.getId());
 
-        System.out.println(memberDto1.getName());
         // then
         assertThat(memberDto1.getName()).isEqualTo(member.getName());
     }
