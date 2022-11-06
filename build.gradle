@@ -39,6 +39,8 @@ dependencies {
     implementation 'com.h2database:h2:2.1.214'
     //feign
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    //resilience4j
+    implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
     //format
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.7.4'
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
