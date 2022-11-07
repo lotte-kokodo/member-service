@@ -2,8 +2,9 @@ package shop.kokodo.memberservice.feign.response;
 
 public class FeignResponse {
 
-    public interface MemberAddress {
+    public interface MemberDeliveryInfo {
 
+        String getName();
         String getAddress();
 
     }
