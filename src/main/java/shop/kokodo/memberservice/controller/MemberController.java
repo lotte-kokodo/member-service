@@ -3,6 +3,8 @@ package shop.kokodo.memberservice.controller;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import shop.kokodo.memberservice.client.MemberReviewClient;
 import shop.kokodo.memberservice.dto.MemberDto;
 import shop.kokodo.memberservice.dto.MemberResponse;
+import shop.kokodo.memberservice.dto.MypageReviewDto;
 import shop.kokodo.memberservice.dto.response.Response;
 import shop.kokodo.memberservice.service.MemberService;
 import shop.kokodo.memberservice.vo.Request.RequestMember;
@@ -26,16 +30,23 @@ import shop.kokodo.memberservice.vo.Request.RequestReview;
 import shop.kokodo.memberservice.vo.Request.RequestUpdateMember;
 import shop.kokodo.memberservice.vo.Response.ResponseMember;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/member")
 public class MemberController {
     private Environment env;
     private MemberService memberService;
+    private MemberReviewClient memberReviewClient;
+    private CircuitBreakerFactory circuitBreakerFactory;
 
     @Autowired
-    public MemberController(Environment env, MemberService memberService) {
+    public MemberController(Environment env, MemberService memberService, MemberReviewClient memberReviewClient, CircuitBreakerFactory circuitBreakerFactory) {
         this.env = env;
         this.memberService = memberService;
+        this.memberReviewClient = memberReviewClient;
+        this.circuitBreakerFactory = circuitBreakerFactory;
     }
 
     //회원가입
@@ -99,6 +110,16 @@ public class MemberController {
 
         return ResponseEntity.status(HttpStatus.OK).body(requestReview);
     }
+
+    // [Feign Client] myPage 에서 내가 작성한 상품 리뷰 조회 API
+    @GetMapping("/mypage/review")
+    public Response findByMemberId(@RequestHeader long memberId){
+        CircuitBreaker circuitBreaker = circuitBreakerFactory.create("reviewCircuit");
+        List<MypageReviewDto> list = circuitBreaker.run(() -> memberReviewClient.findByMemberId(memberId),
+                throwable -> new ArrayList<>());
+        return Response.success(list);
+    }
+
 
     // [ 장바구니 ] 배송지 정보 (사용자 주소) 요청 API
     @GetMapping("/deliveryInfo")
