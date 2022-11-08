@@ -9,11 +9,22 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NaverMemberInfoResponse {
-    private String id;
-    private String name;
-    private String email;
-    private String birthday_year;
-    private String birthday;
-    private String profile_image;
-    private String mobile;
+
+    private String resultcode;
+    private String message;
+
+    private Response response;
+
+    @Getter @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Response {
+        private String id;
+        private String name;
+        private String email;
+        private String birthyear;
+        private String birthday;
+        private String profile_image;
+        private String mobile;
+    }
 }
