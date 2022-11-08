@@ -117,7 +117,8 @@ class MemberControllerTest {
                 .andDo(document("member-rest-controller/member-signup",
                         responseFields(
                                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공여부"),
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("상태코드")
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("상태코드"),
+                                fieldWithPath("result.data").type(JsonFieldType.STRING).description("결과값")
                         ))
                 );
     }
@@ -190,10 +191,8 @@ class MemberControllerTest {
                                         parameterWithName("memberId").description("리뷰 위한 회원 정보 조회")
                                 ),
                                 responseFields(
-                                        fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공여부"),
-                                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("상태코드"),
-                                        fieldWithPath("result.data.loginId").type(JsonFieldType.STRING).description("멤버 로그인"),
-                                        fieldWithPath("result.data.profileImageUrl").type(JsonFieldType.STRING).description("멤버 프로필")
+                                        fieldWithPath("loginId").type(JsonFieldType.STRING).description("아이디"),
+                                        fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("프로필이미지url")
                                 )
                         )
                 );
