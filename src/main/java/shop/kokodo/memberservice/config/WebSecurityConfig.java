@@ -12,20 +12,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import shop.kokodo.memberservice.security.LoginAuthenticationFilter;
 import shop.kokodo.memberservice.service.MemberService;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
-
-    private final MemberService memberService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    public WebSecurityConfig(MemberService memberService,
-        BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.memberService = memberService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
 
     // Security 설정
     @Override
@@ -60,11 +52,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
-    }
-
-    // 인코드된 password가 정확한지 비교 로직
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(memberService).passwordEncoder(bCryptPasswordEncoder);
     }
 }

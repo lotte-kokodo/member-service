@@ -1,11 +1,14 @@
 package shop.kokodo.memberservice.service;
 
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -14,8 +17,10 @@ import shop.kokodo.memberservice.dto.NaverMemberInfoRequest;
 import shop.kokodo.memberservice.dto.NaverMemberInfoResponse;
 import shop.kokodo.memberservice.dto.NaverTokenRequest;
 import shop.kokodo.memberservice.dto.NaverTokenResponse;
-import shop.kokodo.memberservice.dto.response.Response;
-import shop.kokodo.memberservice.oauth.PrincipalOauth2UserService;
+import shop.kokodo.memberservice.entity.Member;
+import shop.kokodo.memberservice.repository.MemberRepository;
+import shop.kokodo.memberservice.security.JwtTokenCreator;
+import shop.kokodo.memberservice.vo.Response.ResponseLogin;
 
 @Service
 @Slf4j
@@ -27,19 +32,32 @@ public class OauthServiceImpl implements OauthService {
 
     private final NaverMemberInfoRequest naverMemberInfoRequest;
 
-    private final PrincipalOauth2UserService oauth2UserService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private final MemberRepository memberRepository;
+
+    private final AuthenticationManager authenticationManager;
+
+    private final JwtTokenCreator jwtTokenCreator;
 
     public OauthServiceImpl(RestTemplate restTemplate,
         NaverTokenRequest naverTokenRequest,
         NaverMemberInfoRequest naverMemberInfoRequest,
-        PrincipalOauth2UserService oauth2UserService) {
+        BCryptPasswordEncoder bCryptPasswordEncoder,
+        MemberRepository memberRepository,
+        AuthenticationManager authenticationManager,
+        JwtTokenCreator jwtTokenCreator) {
         this.restTemplate = restTemplate;
         this.naverTokenRequest = naverTokenRequest;
         this.naverMemberInfoRequest = naverMemberInfoRequest;
-        this.oauth2UserService = oauth2UserService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.memberRepository = memberRepository;
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenCreator = jwtTokenCreator;
     }
 
-    public NaverMemberInfoResponse getMemberInfoFromNaver(NaverCallbackParam param) {
+    @Override
+    public ResponseLogin authenticateWithNaver(NaverCallbackParam param) {
         String tokenUrl = naverTokenRequest.getNaverTokenUrl(param.getCode(), param.getState());
 
         // Naver 사용자 정보를 사용하기 위한 AccessToken 요청
@@ -53,15 +71,34 @@ public class OauthServiceImpl implements OauthService {
 
         HttpEntity<MultiValueMap<String, String>> memberInfoReq = new HttpEntity<>(headers);
         ResponseEntity<NaverMemberInfoResponse> memberInfoRespEntity = restTemplate.exchange(naverMemberInfoRequest.getMeUrl(), HttpMethod.POST, memberInfoReq, NaverMemberInfoResponse.class);
-        NaverMemberInfoResponse naverMemberInfo = memberInfoRespEntity.getBody();
+        NaverMemberInfoResponse.Response naverMemberInfo = Objects.requireNonNull(memberInfoRespEntity.getBody()).getResponse();
 
-        return null;
-    }
+        // 회원인지 확인
+        String loginId = naverMemberInfo.getId();
+        String password = loginId + "ADMIN_TOKEN";
+        Member memberByOauth = memberRepository.findByLoginId(loginId);
 
-    @Override
-    public Response authenticateWithNaver(NaverCallbackParam param) {
+        // 등록된 회원이 아닐 경우 회원가입 진행
+        if (memberByOauth == null) {
+            String encryptedPassword = bCryptPasswordEncoder.encode(password);
+            String birth = String.format("%s-%s", naverMemberInfo.getBirthyear(), naverMemberInfo.getBirthday());
 
-        return null;
+            memberByOauth = Member.create(loginId, naverMemberInfo.getName(), naverMemberInfo.getEmail(),
+                password, birth, naverMemberInfo.getProfile_image(), naverMemberInfo.getMobile(),
+                encryptedPassword);
+
+            // 회원정보 저장
+            memberRepository.save(memberByOauth);
+        }
+        // 인증(로그인) 처리
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginId, password));
+
+        Long memberId = memberByOauth.getId();
+        String accessToken = jwtTokenCreator.generateAccessToken(memberId);
+        String refreshToken = jwtTokenCreator.generateRefreshToken(memberId);
+
+        // 바디에 토큰 및 회원 ID 저장.
+        return new ResponseLogin(memberByOauth.getId(), accessToken, refreshToken);
     }
 
 }

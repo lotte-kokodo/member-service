@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 import shop.kokodo.memberservice.dto.MemberDto;
@@ -51,8 +52,7 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getLoginId(),
-                            creds.getPassword(),
-                            new ArrayList<>()
+                            creds.getPassword()
                     )
             );
         } catch(IOException e) {
@@ -67,19 +67,18 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
                                             FilterChain chain,
                                             Authentication authResult) throws IOException {
 
-        String loginId = ( ((User)authResult.getPrincipal()).getUsername() );
-        MemberDto memberDto = memberService.getMemberByLoginId(loginId);
+        UserDetailsImpl userDetails = ( ((UserDetailsImpl) authResult.getPrincipal()));
+        Long memberId = userDetails.getId();
 
         //JWT Token 생성
         /*
             1. header에 들어갈 내용 및 서명을 위한 SECRET_KEY (application.yml에 정의)
             2. payload에 들어갈 내용 (sub, exp)
          */
-        Long memberId = memberDto.getId();
         String accessToken = jwtTokenCreator.generateAccessToken(memberId);
         String refreshToken = jwtTokenCreator.generateRefreshToken(memberId);
 
-        // 바디에 회원 시퀀스와 토큰 저장
+        // 바디에 토큰 및 회원 ID 저장.
         ResponseLogin respLogin = new ResponseLogin(memberId, accessToken, refreshToken);
         response.getWriter().write(objectMapper.writeValueAsString(respLogin));
     }

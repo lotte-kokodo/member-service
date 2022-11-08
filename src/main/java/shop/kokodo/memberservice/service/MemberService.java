@@ -7,9 +7,11 @@ import shop.kokodo.memberservice.dto.MemberResponse;
 import shop.kokodo.memberservice.entity.Member;
 
 import java.util.Optional;
+import shop.kokodo.memberservice.vo.Request.RequestLogin;
 
-public interface MemberService extends UserDetailsService {
+public interface MemberService {
     MemberDto createMember(MemberDto userDto);
+    void authenticate(RequestLogin req);
     MemberDto getMemberByLoginId(String userId);
     MemberDto getMemberById(long id);
 

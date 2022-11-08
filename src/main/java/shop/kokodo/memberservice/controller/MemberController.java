@@ -25,6 +25,7 @@ import shop.kokodo.memberservice.dto.MemberResponse;
 import shop.kokodo.memberservice.dto.MypageReviewDto;
 import shop.kokodo.memberservice.dto.response.Response;
 import shop.kokodo.memberservice.service.MemberService;
+import shop.kokodo.memberservice.vo.Request.RequestLogin;
 import shop.kokodo.memberservice.vo.Request.RequestMember;
 import shop.kokodo.memberservice.vo.Request.RequestReview;
 import shop.kokodo.memberservice.vo.Request.RequestUpdateMember;

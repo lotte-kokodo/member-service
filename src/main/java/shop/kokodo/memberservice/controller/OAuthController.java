@@ -1,13 +1,16 @@
 package shop.kokodo.memberservice.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import shop.kokodo.memberservice.dto.NaverCallbackParam;
-import shop.kokodo.memberservice.dto.NaverMemberInfoResponse;
 import shop.kokodo.memberservice.dto.response.Response;
 import shop.kokodo.memberservice.service.OauthService;
+import shop.kokodo.memberservice.vo.Response.ResponseLogin;
 
 @RestController
 @RequestMapping("/oauth")
@@ -27,7 +30,7 @@ public class OAuthController {
      */
     @GetMapping("/naver")
     public Response authenticateWithNaver(NaverCallbackParam param) {
-        Response resp = oauthService.authenticateWithNaver(param);
+        ResponseLogin resp = oauthService.authenticateWithNaver(param);
         return Response.success(resp);
     }
 

@@ -31,13 +31,14 @@ public class Member extends BaseTimeEntity {
     private String profileImageUrl;
     @Column(nullable = false)
     private String phoneNumber;
-    @Column()
+    @Column
     private String address;
     @Column(nullable = false)
     private String grade;
+    private String encryptedPwd;
 
     @Builder
-    public Member(Long id, String loginId, String name, String email, String password, String birthday, String profileImageUrl, String phoneNumber, String address, String grade) {
+    public Member(Long id, String loginId, String name, String email, String password, String birthday, String profileImageUrl, String phoneNumber, String address, String grade, String encryptedPwd) {
         this.id = id;
         this.loginId = loginId;
         this.name = name;
@@ -48,5 +49,20 @@ public class Member extends BaseTimeEntity {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.grade = grade;
+        this.encryptedPwd = encryptedPwd;
+    }
+
+    public static Member create(String loginId, String name, String email, String password, String birthday, String profileImageUrl, String phoneNumber, String encryptedPwd) {
+        return Member.builder()
+            .loginId(loginId)
+            .name(name)
+            .email(email)
+            .password(password)
+            .birthday(birthday)
+            .profileImageUrl(profileImageUrl)
+            .phoneNumber(phoneNumber)
+            .grade("ACE")
+            .encryptedPwd(encryptedPwd)
+            .build();
     }
 }

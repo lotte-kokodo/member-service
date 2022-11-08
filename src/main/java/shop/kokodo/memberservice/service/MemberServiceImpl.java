@@ -1,14 +1,10 @@
 package shop.kokodo.memberservice.service;
 
-import java.util.ArrayList;
 import java.util.Optional;
-
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,31 +15,24 @@ import shop.kokodo.memberservice.dto.MemberResponse.MemberDeliveryInfo;
 import shop.kokodo.memberservice.dto.MemberResponse.MemberOfOrderSheet;
 import shop.kokodo.memberservice.entity.Member;
 import shop.kokodo.memberservice.repository.MemberRepository;
+import shop.kokodo.memberservice.security.JwtTokenCreator;
+import shop.kokodo.memberservice.vo.Request.RequestLogin;
 
 @Service
 @Slf4j
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
 
     MemberRepository memberRepository;
     BCryptPasswordEncoder passwordEncoder;
 
+    JwtTokenCreator jwtTokenCreator;
+
     @Autowired
-    public MemberServiceImpl(MemberRepository memberRepository, BCryptPasswordEncoder passwordEncoder) {
+    public MemberServiceImpl(MemberRepository memberRepository, BCryptPasswordEncoder passwordEncoder,
+        JwtTokenCreator jwtTokenCreator) {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
-        Member member = memberRepository.findByLoginId(loginId);
-
-        if(member == null){
-            throw new UsernameNotFoundException("Member not found");
-        }
-
-        return new User(member.getLoginId(), member.getPassword(),
-                true,true,true,true,
-                new ArrayList<>());
+        this.jwtTokenCreator = jwtTokenCreator;
     }
 
     @Override
@@ -57,6 +46,10 @@ public class MemberServiceImpl implements MemberService{
         MemberDto returnMemberDto = mapper.map(member,MemberDto.class);
 
         return returnMemberDto;
+    }
+
+    public void authenticate(RequestLogin requestLogin) {
+
     }
 
     @Override
