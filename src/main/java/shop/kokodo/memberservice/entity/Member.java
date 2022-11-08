@@ -31,14 +31,13 @@ public class Member extends BaseTimeEntity {
     private String profileImageUrl;
     @Column(nullable = false)
     private String phoneNumber;
-    @Column(nullable = false)
+    @Column()
     private String address;
     @Column(nullable = false)
     private String grade;
-    private String encryptedPwd;
 
     @Builder
-    public Member(Long id, String loginId, String name, String email, String password, String birthday, String profileImageUrl, String phoneNumber, String address, String grade, String encryptedPwd) {
+    public Member(Long id, String loginId, String name, String email, String password, String birthday, String profileImageUrl, String phoneNumber, String address, String grade) {
         this.id = id;
         this.loginId = loginId;
         this.name = name;
@@ -49,6 +48,5 @@ public class Member extends BaseTimeEntity {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.grade = grade;
-        this.encryptedPwd = encryptedPwd;
     }
 }

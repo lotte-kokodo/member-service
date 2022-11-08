@@ -5,6 +5,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -13,6 +14,8 @@ import shop.kokodo.memberservice.dto.NaverMemberInfoRequest;
 import shop.kokodo.memberservice.dto.NaverMemberInfoResponse;
 import shop.kokodo.memberservice.dto.NaverTokenRequest;
 import shop.kokodo.memberservice.dto.NaverTokenResponse;
+import shop.kokodo.memberservice.dto.response.Response;
+import shop.kokodo.memberservice.oauth.PrincipalOauth2UserService;
 
 @Service
 @Slf4j
@@ -24,12 +27,16 @@ public class OauthServiceImpl implements OauthService {
 
     private final NaverMemberInfoRequest naverMemberInfoRequest;
 
+    private final PrincipalOauth2UserService oauth2UserService;
+
     public OauthServiceImpl(RestTemplate restTemplate,
         NaverTokenRequest naverTokenRequest,
-        NaverMemberInfoRequest naverMemberInfoRequest) {
+        NaverMemberInfoRequest naverMemberInfoRequest,
+        PrincipalOauth2UserService oauth2UserService) {
         this.restTemplate = restTemplate;
         this.naverTokenRequest = naverTokenRequest;
         this.naverMemberInfoRequest = naverMemberInfoRequest;
+        this.oauth2UserService = oauth2UserService;
     }
 
     public NaverMemberInfoResponse getMemberInfoFromNaver(NaverCallbackParam param) {
@@ -47,6 +54,12 @@ public class OauthServiceImpl implements OauthService {
         HttpEntity<MultiValueMap<String, String>> memberInfoReq = new HttpEntity<>(headers);
         ResponseEntity<NaverMemberInfoResponse> memberInfoRespEntity = restTemplate.exchange(naverMemberInfoRequest.getMeUrl(), HttpMethod.POST, memberInfoReq, NaverMemberInfoResponse.class);
         NaverMemberInfoResponse naverMemberInfo = memberInfoRespEntity.getBody();
+
+        return null;
+    }
+
+    @Override
+    public Response authenticateWithNaver(NaverCallbackParam param) {
 
         return null;
     }

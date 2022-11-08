@@ -41,7 +41,7 @@ public class MemberServiceImpl implements MemberService{
             throw new UsernameNotFoundException("Member not found");
         }
 
-        return new User(member.getLoginId(), member.getEncryptedPwd(),
+        return new User(member.getLoginId(), member.getPassword(),
                 true,true,true,true,
                 new ArrayList<>());
     }
@@ -52,7 +52,7 @@ public class MemberServiceImpl implements MemberService{
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         Member member = mapper.map(memberDto, Member.class);
 
-        member.setEncryptedPwd(passwordEncoder.encode(memberDto.getPassword()));
+        member.setPassword(passwordEncoder.encode(memberDto.getPassword()));
         memberRepository.save(member);
         MemberDto returnMemberDto = mapper.map(member,MemberDto.class);
 
