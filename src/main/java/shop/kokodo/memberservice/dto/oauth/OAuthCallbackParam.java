@@ -1,4 +1,4 @@
-package shop.kokodo.memberservice.dto;
+package shop.kokodo.memberservice.dto.oauth;
 
 
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter @Setter
 @NoArgsConstructor
-public class NaverCallbackParam {
+public class OAuthCallbackParam {
 
     private String code;
     private String state;

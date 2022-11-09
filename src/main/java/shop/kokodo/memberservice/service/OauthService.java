@@ -1,10 +1,10 @@
 package shop.kokodo.memberservice.service;
 
-import shop.kokodo.memberservice.dto.NaverCallbackParam;
+import shop.kokodo.memberservice.dto.oauth.OAuthCallbackParam;
 import shop.kokodo.memberservice.vo.Response.ResponseLogin;
 
 public interface OauthService {
 
-    ResponseLogin authenticateWithNaver(NaverCallbackParam param);
-
+    ResponseLogin authenticateWithNaver(OAuthCallbackParam param);
+    ResponseLogin authenticateWithKakao(OAuthCallbackParam param);
 }

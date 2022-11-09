@@ -65,4 +65,17 @@ public class Member extends BaseTimeEntity {
             .encryptedPwd(encryptedPwd)
             .build();
     }
+
+    public static Member create(String loginId, String name, String email, String password, String birthday, String profileImageUrl, String encryptedPwd) {
+        return Member.builder()
+            .loginId(loginId)
+            .name(name)
+            .email(email)
+            .password(password)
+            .birthday(birthday)
+            .profileImageUrl(profileImageUrl)
+            .grade("ACE")
+            .encryptedPwd(encryptedPwd)
+            .build();
+    }
 }

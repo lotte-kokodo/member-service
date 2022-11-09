@@ -41,7 +41,7 @@ public class MemberServiceImpl implements MemberService {
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         Member member = mapper.map(memberDto, Member.class);
 
-        member.setPassword(passwordEncoder.encode(memberDto.getPassword()));
+        member.setEncryptedPwd(passwordEncoder.encode(memberDto.getPassword()));
         memberRepository.save(member);
         MemberDto returnMemberDto = mapper.map(member,MemberDto.class);
 

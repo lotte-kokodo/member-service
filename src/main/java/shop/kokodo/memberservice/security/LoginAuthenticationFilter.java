@@ -25,20 +25,16 @@ import shop.kokodo.memberservice.vo.Response.ResponseLogin;
 @Component
 @Slf4j
 public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    private final MemberService memberService;
-
     private final JwtTokenCreator jwtTokenCreator;
 
     private final ObjectMapper objectMapper;
 
 
     public LoginAuthenticationFilter(AuthenticationManager authenticationManager,
-        MemberService memberService,
         JwtTokenCreator jwtTokenCreator,
         ObjectMapper objectMapper) {
         super.setAuthenticationManager(authenticationManager);
         this.objectMapper = objectMapper;
-        this.memberService = memberService;
         this.jwtTokenCreator = jwtTokenCreator;
     }
 
