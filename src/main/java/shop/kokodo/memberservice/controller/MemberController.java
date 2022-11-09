@@ -4,13 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import shop.kokodo.memberservice.dto.MemberDto;
 import shop.kokodo.memberservice.dto.MemberResponse;
 import shop.kokodo.memberservice.dto.response.Response;
@@ -20,6 +14,7 @@ import shop.kokodo.memberservice.vo.Request.RequestReview;
 import shop.kokodo.memberservice.vo.Request.RequestUpdateMember;
 import shop.kokodo.memberservice.vo.Response.ResponseMember;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/member")
 public class MemberController {
