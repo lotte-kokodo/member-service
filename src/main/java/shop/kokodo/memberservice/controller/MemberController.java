@@ -90,18 +90,9 @@ public class MemberController {
 
     // 마이페이지 수정
     @PostMapping("/myPage")
-    public Response getUser(@RequestBody RequestUpdateMember member) {
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        MemberDto memberDto = mapper.map(member, MemberDto.class);
-
-        memberDto = memberService.createMember(memberDto);
-
-        if (memberDto.getId() == null || memberDto.getLoginId().equals("")) {
-            return Response.failure(-1002,"회원 업데이트 실패");
-        } else {
-            return Response.success("success");
-        }
+    public Response getUser(@RequestBody RequestUpdateMember req) {
+        memberService.updateMember(req);
+        return Response.success("success");
     }
 
     // 상품상세 리뷰를 위한 회원 아이디 및 프로필 주소 조회

@@ -17,6 +17,7 @@ import shop.kokodo.memberservice.entity.Member;
 import shop.kokodo.memberservice.repository.MemberRepository;
 import shop.kokodo.memberservice.security.JwtTokenCreator;
 import shop.kokodo.memberservice.vo.Request.RequestLogin;
+import shop.kokodo.memberservice.vo.Request.RequestUpdateMember;
 
 @Service
 @Slf4j
@@ -48,8 +49,14 @@ public class MemberServiceImpl implements MemberService {
         return returnMemberDto;
     }
 
-    public void authenticate(RequestLogin requestLogin) {
-
+    @Override
+    public void updateMember(@RequestBody RequestUpdateMember req) {
+        Member member = memberRepository.findByLoginId(req.getLoginId());
+        if (member == null) {
+            throw new IllegalArgumentException("등록되지 않은 사용자입니다.");
+        }
+        member.update(req);
+        memberRepository.save(member);
     }
 
     @Override

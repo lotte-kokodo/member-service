@@ -8,10 +8,11 @@ import shop.kokodo.memberservice.entity.Member;
 
 import java.util.Optional;
 import shop.kokodo.memberservice.vo.Request.RequestLogin;
+import shop.kokodo.memberservice.vo.Request.RequestUpdateMember;
 
 public interface MemberService {
     MemberDto createMember(MemberDto userDto);
-    void authenticate(RequestLogin req);
+    void updateMember(RequestUpdateMember dto);
     MemberDto getMemberByLoginId(String userId);
     MemberDto getMemberById(long id);
 
