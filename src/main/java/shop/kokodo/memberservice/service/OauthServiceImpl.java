@@ -1,5 +1,6 @@
 package shop.kokodo.memberservice.service;
 
+import java.time.LocalDate;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -132,7 +133,7 @@ public class OauthServiceImpl implements OauthService {
             KakaoAccount kakaoAccount = kakaoMember.getKakao_account();
             String encryptedPassword = bCryptPasswordEncoder.encode(password);
             String birthday = kakaoAccount.getBirthday();
-            String birthFormat = String.format("%s-%s", birthday.substring(0,2), birthday.substring(2));
+            String birthFormat = String.format("%s-%s-%s", LocalDate.now().getYear(), birthday.substring(0,2), birthday.substring(2));
 
             Profile kakaoProfile = kakaoAccount.getProfile();
             memberByOauth = Member.create(loginId, kakaoProfile.getNickname(), kakaoAccount.getEmail(),

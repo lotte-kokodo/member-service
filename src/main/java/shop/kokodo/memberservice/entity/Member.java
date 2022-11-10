@@ -29,9 +29,7 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private String birthday;
     private String profileImageUrl;
-    @Column(nullable = false)
     private String phoneNumber;
-    @Column
     private String address;
     @Column(nullable = false)
     private String grade;
