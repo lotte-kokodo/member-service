@@ -23,6 +23,7 @@ import shop.kokodo.memberservice.client.MemberReviewClient;
 import shop.kokodo.memberservice.dto.MemberDto;
 import shop.kokodo.memberservice.dto.MemberResponse;
 import shop.kokodo.memberservice.dto.MypageReviewDto;
+import shop.kokodo.memberservice.dto.PageMypageReviewDto;
 import shop.kokodo.memberservice.dto.response.Response;
 import shop.kokodo.memberservice.service.MemberService;
 import shop.kokodo.memberservice.vo.Request.RequestMember;
@@ -112,11 +113,12 @@ public class MemberController {
     }
 
     // [Feign Client] myPage 에서 내가 작성한 상품 리뷰 조회 API
-    @GetMapping("/mypage/review")
-    public Response findByMemberId(@RequestHeader long memberId){
+    @GetMapping("/mypage/review/{memberId}/{currentpage}")
+    public Response findByMemberId(@PathVariable long memberId, @PathVariable("currentpage") int page){
         CircuitBreaker circuitBreaker = circuitBreakerFactory.create("reviewCircuit");
-        List<MypageReviewDto> list = circuitBreaker.run(() -> memberReviewClient.findByMemberId(memberId),
-                throwable -> new ArrayList<>());
+        PageMypageReviewDto list = circuitBreaker.run(() -> memberReviewClient.findByMemberId(memberId, page),
+                throwable -> new PageMypageReviewDto(new ArrayList<>(),0));
+
         return Response.success(list);
     }
 
