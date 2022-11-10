@@ -12,5 +12,5 @@ import java.util.List;
 public interface MemberReviewClient {
 
     @GetMapping("/product-service/review/member/{memberId}/{currentpage}")
-    PageMypageReviewDto findByMemberId(@PathVariable("memberId") long memberId, @PathVariable("currentpage") int page);
+    PageMypageReviewDto findByMemberId(@PathVariable("memberId") long memberId ,@PathVariable("currentpage") int page);
 }

@@ -118,6 +118,7 @@ public class MemberController {
         CircuitBreaker circuitBreaker = circuitBreakerFactory.create("reviewCircuit");
         PageMypageReviewDto list = circuitBreaker.run(() -> memberReviewClient.findByMemberId(memberId, page),
                 throwable -> new PageMypageReviewDto(new ArrayList<>(),0));
+
         return Response.success(list);
     }
 
