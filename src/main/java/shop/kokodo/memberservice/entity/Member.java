@@ -5,6 +5,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
+import shop.kokodo.memberservice.vo.Request.RequestUpdateMember;
 
 
 @Getter
@@ -29,9 +30,7 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private String birthday;
     private String profileImageUrl;
-    @Column(nullable = false)
     private String phoneNumber;
-    @Column(nullable = false)
     private String address;
     @Column(nullable = false)
     private String grade;
@@ -50,5 +49,43 @@ public class Member extends BaseTimeEntity {
         this.address = address;
         this.grade = grade;
         this.encryptedPwd = encryptedPwd;
+    }
+
+    public static Member create(String loginId, String name, String email, String password, String birthday, String profileImageUrl, String phoneNumber, String encryptedPwd) {
+        return Member.builder()
+            .loginId(loginId)
+            .name(name)
+            .email(email)
+            .password(password)
+            .birthday(birthday)
+            .profileImageUrl(profileImageUrl)
+            .phoneNumber(phoneNumber)
+            .grade("ACE")
+            .encryptedPwd(encryptedPwd)
+            .build();
+    }
+
+    public static Member create(String loginId, String name, String email, String password, String birthday, String profileImageUrl, String encryptedPwd) {
+        return Member.builder()
+            .loginId(loginId)
+            .name(name)
+            .email(email)
+            .password(password)
+            .birthday(birthday)
+            .profileImageUrl(profileImageUrl)
+            .grade("ACE")
+            .encryptedPwd(encryptedPwd)
+            .build();
+    }
+
+    public void update(RequestUpdateMember dto) {
+        this.id = dto.getId();
+        this.loginId = dto.getLoginId();
+        this.name = dto.getName();
+        this.email = dto.getEmail();
+        this.birthday = dto.getBirthday();
+        this.profileImageUrl = dto.getProfileImageUrl();
+        this.phoneNumber = dto.getPhoneNumber();
+        this.address = dto.getAddress();
     }
 }

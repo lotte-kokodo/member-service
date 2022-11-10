@@ -1,10 +1,8 @@
 package shop.kokodo.memberservice.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.env.Environment;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,27 +10,32 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 import shop.kokodo.memberservice.dto.MemberDto;
 import shop.kokodo.memberservice.service.MemberService;
 import shop.kokodo.memberservice.vo.Request.RequestLogin;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
+import shop.kokodo.memberservice.vo.Response.ResponseLogin;
 
+@Component
 @Slf4j
-public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    private MemberService memberService;
-    private Environment env;
+public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+    private final JwtTokenCreator jwtTokenCreator;
 
-    public AuthenticationFilter(AuthenticationManager authenticationManager, MemberService memberService, Environment env) {
+    private final ObjectMapper objectMapper;
+
+
+    public LoginAuthenticationFilter(AuthenticationManager authenticationManager,
+        JwtTokenCreator jwtTokenCreator,
+        ObjectMapper objectMapper) {
         super.setAuthenticationManager(authenticationManager);
-        this.memberService = memberService;
-        this.env = env;
+        this.objectMapper = objectMapper;
+        this.jwtTokenCreator = jwtTokenCreator;
     }
 
     //인증수행 로직
@@ -45,8 +48,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getLoginId(),
-                            creds.getPassword(),
-                            new ArrayList<>()
+                            creds.getPassword()
                     )
             );
         } catch(IOException e) {
@@ -59,25 +61,21 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication authResult) throws IOException, ServletException {
+                                            Authentication authResult) throws IOException {
 
-        String loginId = ( ((User)authResult.getPrincipal()).getUsername() );
-        MemberDto memberDto = memberService.getMemberByLoginId(loginId);
+        UserDetailsImpl userDetails = ( ((UserDetailsImpl) authResult.getPrincipal()));
+        Long memberId = userDetails.getId();
 
         //JWT Token 생성
         /*
             1. header에 들어갈 내용 및 서명을 위한 SECRET_KEY (application.yml에 정의)
             2. payload에 들어갈 내용 (sub, exp)
          */
-        String token = Jwts.builder()
-                .signWith(SignatureAlgorithm.HS512, env.getProperty("token.secret"))
-                .setSubject(memberDto.getLoginId())
-                .setExpiration(new Date(System.currentTimeMillis() +
-                        Long.parseLong(env.getProperty("token.expiration_time"))))
-                .compact();
+        String accessToken = jwtTokenCreator.generateAccessToken(memberId);
+        String refreshToken = jwtTokenCreator.generateRefreshToken(memberId);
 
-        // 헤더에 토큰 및 ID 저장.
-        response.addHeader("token", token);
-        response.addHeader("memberId", memberDto.getId().toString());
+        // 바디에 토큰 및 회원 ID 저장.
+        ResponseLogin respLogin = new ResponseLogin(memberId, accessToken, refreshToken);
+        response.getWriter().write(objectMapper.writeValueAsString(respLogin));
     }
 }

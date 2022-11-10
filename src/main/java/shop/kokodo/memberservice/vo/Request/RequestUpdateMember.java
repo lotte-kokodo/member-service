@@ -22,10 +22,6 @@ public class RequestUpdateMember {
     @Email
     private String email;
 
-    @NotNull(message = "Password cannot be null")
-    @Size(min = 8, message = "Password not be less than eight characters")
-    private String password;
-
     @NotNull(message = "birthday cannot be null")
     @Size(min = 6, message = "birthday not be less than six characters")
     private String birthday;
@@ -45,12 +41,11 @@ public class RequestUpdateMember {
     private String grade;
 
     @Builder
-    public RequestUpdateMember(Long id, String loginId, String name, String email, String password, String birthday, String profileImageUrl, String phoneNumber, String address, String grade) {
+    public RequestUpdateMember(Long id, String loginId, String name, String email, String birthday, String profileImageUrl, String phoneNumber, String address, String grade) {
         this.id = id;
         this.loginId = loginId;
         this.name = name;
         this.email = email;
-        this.password = password;
         this.birthday = birthday;
         this.profileImageUrl = profileImageUrl;
         this.phoneNumber = phoneNumber;
