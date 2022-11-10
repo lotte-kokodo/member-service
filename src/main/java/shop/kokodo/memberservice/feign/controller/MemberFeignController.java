@@ -20,9 +20,9 @@ public class MemberFeignController {
         this.memberFeignService = memberFeignService;
     }
 
-    @GetMapping("/address")
-    public FeignResponse.MemberAddress getMemberAddress(@RequestHeader Long memberId) {
-        return memberFeignService.getMemberAddress(memberId);
+    @GetMapping("/deliveryInfo")
+    public FeignResponse.MemberDeliveryInfo getMemberAddress(@RequestHeader Long memberId) {
+        return memberFeignService.getMemberDeliveryInfo(memberId);
     }
 
 }
