@@ -9,14 +9,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import shop.kokodo.memberservice.dto.CartMemberDto;
 import shop.kokodo.memberservice.dto.MemberDto;
-import shop.kokodo.memberservice.dto.MemberResponse;
-import shop.kokodo.memberservice.dto.MemberResponse.MemberDeliveryInfo;
-import shop.kokodo.memberservice.dto.MemberResponse.MemberOfOrderSheet;
+import shop.kokodo.memberservice.dto.OrderSheetMemberDto;
 import shop.kokodo.memberservice.entity.Member;
 import shop.kokodo.memberservice.repository.MemberRepository;
 import shop.kokodo.memberservice.security.JwtTokenCreator;
-import shop.kokodo.memberservice.vo.Request.RequestLogin;
 import shop.kokodo.memberservice.vo.Request.RequestUpdateMember;
 
 @Service
@@ -81,13 +79,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberResponse.MemberDeliveryInfo getMemberDeliveryInfo(Long memberId) {
-        return memberRepository.findById(memberId, MemberDeliveryInfo.class);
+    public CartMemberDto getCartMember(Long id) {
+        return memberRepository.findById(id, CartMemberDto.class);
     }
 
     @Override
-    public MemberResponse.MemberOfOrderSheet getMemberOrderInfo(Long memberId) {
-        return memberRepository.findById(memberId, MemberOfOrderSheet.class);
+    public OrderSheetMemberDto getOrderSheetMember(Long id) {
+        return memberRepository.findById(id, OrderSheetMemberDto.class);
     }
 
     @Override
