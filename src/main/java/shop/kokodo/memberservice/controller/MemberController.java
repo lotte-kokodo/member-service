@@ -20,20 +20,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import shop.kokodo.memberservice.client.MemberReviewClient;
+import shop.kokodo.memberservice.dto.CartMemberDto;
 import shop.kokodo.memberservice.dto.MemberDto;
-import shop.kokodo.memberservice.dto.MemberResponse;
-import shop.kokodo.memberservice.dto.MypageReviewDto;
+import shop.kokodo.memberservice.dto.OrderSheetMemberDto;
 import shop.kokodo.memberservice.dto.PageMypageReviewDto;
 import shop.kokodo.memberservice.dto.response.Response;
 import shop.kokodo.memberservice.service.MemberService;
-import shop.kokodo.memberservice.vo.Request.RequestLogin;
 import shop.kokodo.memberservice.vo.Request.RequestMember;
 import shop.kokodo.memberservice.vo.Request.RequestReview;
 import shop.kokodo.memberservice.vo.Request.RequestUpdateMember;
 import shop.kokodo.memberservice.vo.Response.ResponseMember;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/member")
@@ -116,16 +114,16 @@ public class MemberController {
 
 
     // [ 장바구니 ] 배송지 정보 (사용자 주소) 요청 API
-    @GetMapping("/deliveryInfo")
+    @GetMapping("/cart")
     public Response getMemberAddress(@RequestHeader Long memberId) {
-        MemberResponse.MemberDeliveryInfo data = memberService.getMemberDeliveryInfo(memberId);
+        CartMemberDto data = memberService.getCartMember(memberId);
         return Response.success(data);
     }
 
     // [ 주문서 ] 주문 고객 정보 요청 API
-    @GetMapping("/orderInfo")
+    @GetMapping("/order")
     public Response getMemberOrderInfo(@RequestHeader Long memberId) {
-        MemberResponse.MemberOfOrderSheet data = memberService.getMemberOrderInfo(memberId);
+        OrderSheetMemberDto data = memberService.getOrderSheetMember(memberId);
         return Response.success(data);
     }
 
