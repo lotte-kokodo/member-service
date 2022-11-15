@@ -10,7 +10,7 @@ eureka:
 
 spring:
   application:
-    name: product-service
+    name: member-service
   jpa:
     hibernate:
       ddl-auto: create
