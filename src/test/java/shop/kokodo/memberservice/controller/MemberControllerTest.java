@@ -117,7 +117,7 @@ class MemberControllerTest {
                 .andDo(document("member-rest-controller/member-signup",
                         responseFields(
                                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공여부"),
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("상태코드"),
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("상태코드")
                         ))
                 );
     }
