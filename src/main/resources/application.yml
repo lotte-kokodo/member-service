@@ -16,12 +16,6 @@ spring:
     sampler:
       probability: 1.0
 
-  rabbitmq:
-    host: rabbitmq
-    port: 5672
-    username: guest
-    password: guest
-
   jpa:
     hibernate:
       ddl-auto: create

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import shop.kokodo.memberservice.feign.response.FeignResponse;
+import shop.kokodo.memberservice.feign.response.OrderMemberDto;
 import shop.kokodo.memberservice.feign.service.interfaces.MemberFeignService;
 
 @RestController
@@ -20,9 +20,9 @@ public class MemberFeignController {
         this.memberFeignService = memberFeignService;
     }
 
-    @GetMapping("/address")
-    public FeignResponse.MemberAddress getMemberAddress(@RequestHeader Long memberId) {
-        return memberFeignService.getMemberAddress(memberId);
+    @GetMapping("/order")
+    public OrderMemberDto getMemberAddress(@RequestHeader Long memberId) {
+        return memberFeignService.getOrderMember(memberId);
     }
 
 }

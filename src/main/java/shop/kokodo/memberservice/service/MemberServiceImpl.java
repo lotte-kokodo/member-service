@@ -1,47 +1,37 @@
 package shop.kokodo.memberservice.service;
 
-import java.util.ArrayList;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import shop.kokodo.memberservice.dto.CartMemberDto;
 import shop.kokodo.memberservice.dto.MemberDto;
-import shop.kokodo.memberservice.dto.MemberResponse;
-import shop.kokodo.memberservice.dto.MemberResponse.MemberDeliveryInfo;
-import shop.kokodo.memberservice.dto.MemberResponse.MemberOfOrderSheet;
+import shop.kokodo.memberservice.dto.OrderSheetMemberDto;
 import shop.kokodo.memberservice.entity.Member;
 import shop.kokodo.memberservice.repository.MemberRepository;
+import shop.kokodo.memberservice.security.JwtTokenCreator;
+import shop.kokodo.memberservice.vo.Request.RequestUpdateMember;
 
 @Service
 @Slf4j
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
 
     MemberRepository memberRepository;
     BCryptPasswordEncoder passwordEncoder;
 
+    JwtTokenCreator jwtTokenCreator;
+
     @Autowired
-    public MemberServiceImpl(MemberRepository memberRepository, BCryptPasswordEncoder passwordEncoder) {
+    public MemberServiceImpl(MemberRepository memberRepository, BCryptPasswordEncoder passwordEncoder,
+        JwtTokenCreator jwtTokenCreator) {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
-        Member member = memberRepository.findByLoginId(loginId);
-
-        if(member == null){
-            throw new UsernameNotFoundException("Member not found");
-        }
-
-        return new User(member.getLoginId(), member.getEncryptedPwd(),
-                true,true,true,true,
-                new ArrayList<>());
+        this.jwtTokenCreator = jwtTokenCreator;
     }
 
     @Override
@@ -55,6 +45,16 @@ public class MemberServiceImpl implements MemberService{
         MemberDto returnMemberDto = mapper.map(member,MemberDto.class);
 
         return returnMemberDto;
+    }
+
+    @Override
+    public void updateMember(@RequestBody RequestUpdateMember req) {
+        Member member = memberRepository.findByLoginId(req.getLoginId());
+        if (member == null) {
+            throw new IllegalArgumentException("등록되지 않은 사용자입니다.");
+        }
+        member.update(req);
+        memberRepository.save(member);
     }
 
     @Override
@@ -79,12 +79,26 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public MemberResponse.MemberDeliveryInfo getMemberDeliveryInfo(Long memberId) {
-        return memberRepository.findById(memberId, MemberDeliveryInfo.class);
+    public CartMemberDto getCartMember(Long id) {
+        return memberRepository.findById(id, CartMemberDto.class);
     }
 
     @Override
-    public MemberResponse.MemberOfOrderSheet getMemberOrderInfo(Long memberId) {
-        return memberRepository.findById(memberId, MemberOfOrderSheet.class);
+    public OrderSheetMemberDto getOrderSheetMember(Long id) {
+        return memberRepository.findById(id, OrderSheetMemberDto.class);
+    }
+
+    @Override
+    public Optional<Member> getMember(Long memberId) {
+        return memberRepository.findById(memberId);
+    }
+
+    @Override
+    public Boolean checkMemberInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+            .orElseThrow(() -> {
+                throw new IllegalArgumentException("등록되지 않은 회원입니다.");
+            });
+        return (member.getAddress() != null && member.getPhoneNumber() != null);
     }
 }

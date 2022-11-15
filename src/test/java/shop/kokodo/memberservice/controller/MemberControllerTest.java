@@ -97,9 +97,9 @@ class MemberControllerTest {
                 .name("OhJaegon")
                 .email("opve555@gmail.com")
                 .password("test1234")
-                .birthday("950428")
+                .birthday("1995-04-28")
                 .profileImageUrl("https://avatars.githubusercontent.com/u/114142626?s=200&v=4")
-                .phoneNumber("01012341234")
+                .phoneNumber("010-1234-1234")
                 .address("서울 성동구 성수2가1동")
                 .grade("1")
                 .build();
@@ -139,7 +139,7 @@ class MemberControllerTest {
                                 responseFields(
                                         fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공여부"),
                                         fieldWithPath("code").type(JsonFieldType.NUMBER).description("상태코드"),
-                                        fieldWithPath("result.data").type(JsonFieldType.STRING).description("결과")
+                                        fieldWithPath("result.msg").type(JsonFieldType.STRING).description("결과")
                                 )
                         )
                 );
@@ -190,10 +190,8 @@ class MemberControllerTest {
                                         parameterWithName("memberId").description("리뷰 위한 회원 정보 조회")
                                 ),
                                 responseFields(
-                                        fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공여부"),
-                                        fieldWithPath("code").type(JsonFieldType.NUMBER).description("상태코드"),
-                                        fieldWithPath("result.data.loginId").type(JsonFieldType.STRING).description("멤버 로그인"),
-                                        fieldWithPath("result.data.profileImageUrl").type(JsonFieldType.STRING).description("멤버 프로필")
+                                        fieldWithPath("loginId").type(JsonFieldType.STRING).description("멤버 로그인"),
+                                        fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("멤버 프로필")
                                 )
                         )
                 );
