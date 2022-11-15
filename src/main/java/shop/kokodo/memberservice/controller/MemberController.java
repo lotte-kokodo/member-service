@@ -134,4 +134,11 @@ public class MemberController {
 
         return ResponseEntity.status(HttpStatus.OK).body(flag);
     }
+
+    // [주문] 주문 시 사용자 정보 적용됐는지 확인
+    @GetMapping("/check/info")
+    public ResponseEntity<Boolean> checkMemberInfoApply(@RequestHeader Long memberId) {
+        Boolean isMemberInfoRegistered = memberService.checkMemberInfo(memberId);
+        return ResponseEntity.ok(isMemberInfoRegistered);
+    }
 }

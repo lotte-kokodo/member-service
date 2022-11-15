@@ -92,4 +92,13 @@ public class MemberServiceImpl implements MemberService {
     public Optional<Member> getMember(Long memberId) {
         return memberRepository.findById(memberId);
     }
+
+    @Override
+    public Boolean checkMemberInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+            .orElseThrow(() -> {
+                throw new IllegalArgumentException("등록되지 않은 회원입니다.");
+            });
+        return (member.getAddress() != null && member.getPhoneNumber() != null);
+    }
 }
