@@ -118,7 +118,6 @@ class MemberControllerTest {
                         responseFields(
                                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공여부"),
                                 fieldWithPath("code").type(JsonFieldType.NUMBER).description("상태코드"),
-                                fieldWithPath("result.data").type(JsonFieldType.STRING).description("결과값")
                         ))
                 );
     }
