@@ -21,4 +21,6 @@ public interface MemberService {
     OrderSheetMemberDto getOrderSheetMember(Long id);
 
     Optional<Member> getMember(Long memberId);
+
+    Boolean checkMemberInfo(Long memberId);
 }
