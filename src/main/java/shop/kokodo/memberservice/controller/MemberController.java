@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import shop.kokodo.memberservice.client.MemberReviewClient;
 import shop.kokodo.memberservice.dto.CartMemberDto;
+
 import shop.kokodo.memberservice.dto.MemberDto;
 import shop.kokodo.memberservice.dto.OrderSheetMemberDto;
 import shop.kokodo.memberservice.dto.PageMypageReviewDto;
@@ -33,6 +34,7 @@ import shop.kokodo.memberservice.vo.Response.ResponseMember;
 
 import java.util.ArrayList;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/member")
 public class MemberController {
