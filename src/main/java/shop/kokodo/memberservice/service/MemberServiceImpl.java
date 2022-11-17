@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import shop.kokodo.memberservice.dto.CartMemberDto;
 import shop.kokodo.memberservice.dto.MemberDto;
@@ -34,6 +35,7 @@ public class MemberServiceImpl implements MemberService {
         this.jwtTokenCreator = jwtTokenCreator;
     }
 
+    @Transactional
     @Override
     public MemberDto createMember(@RequestBody MemberDto memberDto) {
         ModelMapper mapper = new ModelMapper();
@@ -46,7 +48,7 @@ public class MemberServiceImpl implements MemberService {
 
         return returnMemberDto;
     }
-
+    @Transactional(readOnly = true)
     @Override
     public void updateMember(@RequestBody RequestUpdateMember req) {
         Member member = memberRepository.findByLoginId(req.getLoginId());

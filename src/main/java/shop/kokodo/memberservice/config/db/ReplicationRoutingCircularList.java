@@ -16,7 +16,6 @@ public class ReplicationRoutingCircularList<T> {
             counter = 0;
         }
 
-        System.out.println(counter);
         return list.get(counter++ % circularSize);
     }
 

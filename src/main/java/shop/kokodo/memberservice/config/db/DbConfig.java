@@ -23,6 +23,7 @@ import java.util.Map;
 
 //@Configuration
 @RequiredArgsConstructor
+// DataSource를 직접 설정해야하기 때문에 자동으로 DataSource를 연결하는 DataSourceAutoConfiguration 클래스를 제외
 //@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class DbConfig {
 
@@ -45,14 +46,6 @@ public class DbConfig {
         String slave2Url = dbProperty.getSlaveList().getSlave2();
         dataSourceMap.put("slave2", createDataSource(slave2Url));
         System.out.println("slave2 - "+slave2Url);
-
-//        dbProperty.getSlaveList().forEach(slave -> {
-//            dataSourceMap.put(slave.getName(), createDataSource(slave.getUrl()));
-//            System.out.println("url 체크");
-//            System.out.println(slave.getName()+" : "+slave.getUrl());
-//
-//        });
-
 
         replicationRoutingDataSource.setTargetDataSources(dataSourceMap);
 
@@ -77,7 +70,7 @@ public class DbConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         EntityManagerFactoryBuilder entityManagerFactoryBuilder = createEntityManagerFactoryBuilder(jpaProperties);
-        return entityManagerFactoryBuilder.dataSource(dataSource()).packages("shop.kokodo.productservice").build();
+        return entityManagerFactoryBuilder.dataSource(dataSource()).packages("shop.kokodo.memberservice").build();
     }
 
     private EntityManagerFactoryBuilder createEntityManagerFactoryBuilder(JpaProperties jpaProperties) {
@@ -93,6 +86,7 @@ public class DbConfig {
         return tm;
     }
 
+    // jdbcTemplate 세팅
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
