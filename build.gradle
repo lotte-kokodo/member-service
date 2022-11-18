@@ -38,8 +38,8 @@ dependencies {
     implementation 'mysql:mysql-connector-java:8.0.30'
 
     //zipkin
-//    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-//    implementation 'org.springframework.cloud:spring-cloud-starter-zipkin:2.2.3.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    implementation 'org.springframework.cloud:spring-cloud-starter-zipkin:2.2.3.RELEASE'
     //eureka
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     //mysql,h2
