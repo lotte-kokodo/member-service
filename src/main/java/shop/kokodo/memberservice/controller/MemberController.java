@@ -1,5 +1,6 @@
 package shop.kokodo.memberservice.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,9 @@ import shop.kokodo.memberservice.vo.Response.ResponseMember;
 
 import java.util.ArrayList;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/member")
+@Slf4j
 public class MemberController {
     private Environment env;
     private MemberService memberService;
@@ -107,9 +108,12 @@ public class MemberController {
     // [Feign Client] myPage 에서 내가 작성한 상품 리뷰 조회 API
     @GetMapping("/mypage/review/{memberId}/{currentpage}")
     public Response findByMemberId(@PathVariable long memberId, @PathVariable("currentpage") int page){
+        log.info("mypage 상품 리뷰 진입 : " + memberId + " / " + page);
         CircuitBreaker circuitBreaker = circuitBreakerFactory.create("reviewCircuit");
         PageMypageReviewDto list = circuitBreaker.run(() -> memberReviewClient.findByMemberId(memberId, page),
-                throwable -> new PageMypageReviewDto(new ArrayList<>(),0));
+                throwable -> new PageMypageReviewDto(new ArrayList<>(),999999));
+
+        log.info(list.toString());
 
         return Response.success(list);
     }
