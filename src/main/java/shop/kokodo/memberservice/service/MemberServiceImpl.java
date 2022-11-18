@@ -48,7 +48,7 @@ public class MemberServiceImpl implements MemberService {
 
         return returnMemberDto;
     }
-    @Transactional(readOnly = false)
+    @Transactional
     @Override
     public void updateMember(@RequestBody RequestUpdateMember req) {
         Member member = memberRepository.findByLoginId(req.getLoginId());
@@ -59,6 +59,7 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public MemberDto getMemberByLoginId(String loginId) {
         Member member = memberRepository.findByLoginId(loginId);
@@ -68,6 +69,7 @@ public class MemberServiceImpl implements MemberService {
         return memberDto;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public MemberDto getMemberById(long id) {
         Member member = memberRepository.findById(id).orElse(new Member());
@@ -80,21 +82,25 @@ public class MemberServiceImpl implements MemberService {
         return memberDto;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public CartMemberDto getCartMember(Long id) {
         return memberRepository.findById(id, CartMemberDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public OrderSheetMemberDto getOrderSheetMember(Long id) {
         return memberRepository.findById(id, OrderSheetMemberDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Optional<Member> getMember(Long memberId) {
         return memberRepository.findById(memberId);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Boolean checkMemberInfo(Long memberId) {
         Member member = memberRepository.findById(memberId)
