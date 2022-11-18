@@ -45,14 +45,6 @@ public class DbConfig {
         dataSourceMap.put("slave2", createDataSource(slave2Url));
         System.out.println("slave2 - "+slave2Url);
 
-//        dbProperty.getSlaveList().forEach(slave -> {
-//            dataSourceMap.put(slave.getName(), createDataSource(slave.getUrl()));
-//            System.out.println("url 체크");
-//            System.out.println(slave.getName()+" : "+slave.getUrl());
-//
-//        });
-
-
         replicationRoutingDataSource.setTargetDataSources(dataSourceMap);
 
         replicationRoutingDataSource.setDefaultTargetDataSource(masterDataSource);
