@@ -5,14 +5,12 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Getter @Setter @Component
 @ConfigurationProperties("spring.datasource")
 public class DbProperty {
 
     private String url;
-    private List<Slave> slaveList;
+    private Slave slaveList;
 
     private String driverClassName;
     private String username;
@@ -20,7 +18,7 @@ public class DbProperty {
 
     @Getter @Setter
     public static class Slave {
-        private String name;
-        private String url;
+        private String slave1;
+        private String slave2;
     }
 }
