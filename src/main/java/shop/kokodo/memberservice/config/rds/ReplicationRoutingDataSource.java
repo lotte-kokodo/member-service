@@ -1,4 +1,4 @@
-package shop.kokodo.memberservice.rds;
+package shop.kokodo.memberservice.config.rds;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;

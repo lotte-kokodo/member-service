@@ -1,4 +1,4 @@
-package shop.kokodo.memberservice.rds;
+package shop.kokodo.memberservice.config.rds;
 
 import java.util.List;
 
