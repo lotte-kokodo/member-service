@@ -8,14 +8,14 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://eureka-service/eureka
+      defaultZone: http://eureka-service:9001/eureka
 
 spring:
   application:
     name: member-service
 
   zipkin:
-    base-url: http://zipkin
+    base-url: http://zipkin:9411
     enabled: true
   sleuth:
     sampler:
