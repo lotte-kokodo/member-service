@@ -48,7 +48,7 @@ public class MemberServiceImpl implements MemberService {
 
         return returnMemberDto;
     }
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = false)
     @Override
     public void updateMember(@RequestBody RequestUpdateMember req) {
         Member member = memberRepository.findByLoginId(req.getLoginId());
