@@ -20,9 +20,9 @@ import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
-@Configuration
 @RequiredArgsConstructor
-@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
+//@Configuration
+//@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class DbConfig {
 
     private final DbProperty dbProperty;
