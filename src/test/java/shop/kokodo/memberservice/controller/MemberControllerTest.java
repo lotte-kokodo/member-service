@@ -190,8 +190,8 @@ class MemberControllerTest {
                                         parameterWithName("memberId").description("리뷰 위한 회원 정보 조회")
                                 ),
                                 responseFields(
-                                        fieldWithPath("loginId").type(JsonFieldType.STRING).description("멤버 로그인"),
-                                        fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("멤버 프로필")
+                                        fieldWithPath("loginId").type(JsonFieldType.STRING).description("아이디"),
+                                        fieldWithPath("profileImageUrl").type(JsonFieldType.STRING).description("프로필이미지url")
                                 )
                         )
                 );

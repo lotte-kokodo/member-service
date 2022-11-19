@@ -8,9 +8,9 @@ import shop.kokodo.memberservice.dto.PageMypageReviewDto;
 
 import java.util.List;
 
-@FeignClient(name="product-service", url = "http://localhost:8001")
+@FeignClient(name="product-service")
 public interface MemberReviewClient {
 
-    @GetMapping("/product-service/review/member/{memberId}/{currentpage}")
+    @GetMapping("/review/member/{memberId}/{currentpage}")
     PageMypageReviewDto findByMemberId(@PathVariable("memberId") long memberId ,@PathVariable("currentpage") int page);
 }

@@ -1,6 +1,10 @@
-package shop.kokodo.memberservice.config.db;
+package shop.kokodo.memberservice.config.rds;
 
 import com.zaxxer.hikari.HikariDataSource;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -16,14 +20,8 @@ import org.springframework.orm.jpa.vendor.AbstractJpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-//@Configuration
 @RequiredArgsConstructor
-// DataSource를 직접 설정해야하기 때문에 자동으로 DataSource를 연결하는 DataSourceAutoConfiguration 클래스를 제외
+//@Configuration
 //@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class DbConfig {
 
@@ -86,7 +84,6 @@ public class DbConfig {
         return tm;
     }
 
-    // jdbcTemplate 세팅
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);

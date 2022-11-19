@@ -1,12 +1,11 @@
-package shop.kokodo.memberservice.config.db;
+package shop.kokodo.memberservice.config.rds;
 
+import static java.util.stream.Collectors.toList;
+
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
-
-import java.util.Map;
-
-import static java.util.stream.Collectors.toList;
 
 @Slf4j
 public class ReplicationRoutingDataSource extends AbstractRoutingDataSource {

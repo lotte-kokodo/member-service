@@ -1,5 +1,6 @@
 package shop.kokodo.memberservice.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import shop.kokodo.memberservice.client.MemberReviewClient;
 import shop.kokodo.memberservice.dto.CartMemberDto;
+
 import shop.kokodo.memberservice.dto.MemberDto;
 import shop.kokodo.memberservice.dto.OrderSheetMemberDto;
 import shop.kokodo.memberservice.dto.PageMypageReviewDto;
@@ -35,6 +37,7 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/member")
+@Slf4j
 public class MemberController {
     private Environment env;
     private MemberService memberService;

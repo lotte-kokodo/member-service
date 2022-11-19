@@ -1,4 +1,4 @@
-package shop.kokodo.memberservice.config.db;
+package shop.kokodo.memberservice.config.rds;
 
 import java.util.List;
 
@@ -16,6 +16,7 @@ public class ReplicationRoutingCircularList<T> {
             counter = 0;
         }
 
+        System.out.println(counter);
         return list.get(counter++ % circularSize);
     }
 

@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'shop.kokodo'
-version = '0.0.1-SNAPSHOT'
+version = '1.0'
 sourceCompatibility = '11'
 
 configurations {
@@ -25,10 +25,18 @@ ext {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    implementation 'org.springframework.cloud:spring-cloud-starter-zipkin:2.2.3.RELEASE'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+    implementation 'com.h2database:h2:2.1.214'
+    implementation 'mysql:mysql-connector-java:8.0.30'
+
     //zipkin
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
     implementation 'org.springframework.cloud:spring-cloud-starter-zipkin:2.2.3.RELEASE'
@@ -76,35 +84,35 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-//==================Spring Rest docs==================
-test {
-    outputs.dir snippetsDir
-}
-
-asciidoctor {
-    dependsOn test
-    inputs.dir snippetsDir
-//    configurations 'asciidoctorExt'
-}
-
-task createDocument(type: Copy) {
-    dependsOn asciidoctor
-    asciidoctor
-    from file("build/docs/asciidoc")
-    into file("src/main/resources/static/docs")
-}
-
-//==================Spring Rest docs==================
-build {
-    dependsOn createDocument
-}
-
-bootJar {
-    dependsOn createDocument
-    from("${asciidoctor.outputDir}/html5") {
-        into 'static'
-    }
-}
+////==================Spring Rest docs==================
+//test {
+//    outputs.dir snippetsDir
+//}
+//
+//asciidoctor {
+//    dependsOn test
+//    inputs.dir snippetsDir
+////    configurations 'asciidoctorExt'
+//}
+//
+//task createDocument(type: Copy) {
+//    dependsOn asciidoctor
+//    asciidoctor
+//    from file("build/docs/asciidoc")
+//    into file("src/main/resources/static/docs")
+//}
+//
+////==================Spring Rest docs==================
+//build {
+//    dependsOn createDocument
+//}
+//
+//bootJar {
+//    dependsOn createDocument
+//    from("${asciidoctor.outputDir}/html5") {
+//        into 'static'
+//    }
+//}
 
 configurations {
     //==================Spring Rest docs==================
