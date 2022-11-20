@@ -11,43 +11,4 @@ endif::[]
 :toclevels: 2
 :sectlinks:
 
-== Member
-
-== member-checkId
-include::{snippets}/member-rest-controller/member-checkId/curl-request.adoc[]
-include::{snippets}/member-rest-controller/member-checkId/http-request.adoc[]
-include::{snippets}/member-rest-controller/member-checkId/http-response.adoc[]
-include::{snippets}/member-rest-controller/member-checkId/httpie-request.adoc[]
-include::{snippets}/member-rest-controller/member-checkId/path-parameters.adoc[]
-include::{snippets}/member-rest-controller/member-checkId/request-body.adoc[]
-include::{snippets}/member-rest-controller/member-checkId/response-body.adoc[]
-include::{snippets}/member-rest-controller/member-checkId/response-fields.adoc[]
-
-== member-getUser
-include::{snippets}/member-rest-controller/member-getUser/curl-request.adoc[]
-include::{snippets}/member-rest-controller/member-getUser/http-request.adoc[]
-include::{snippets}/member-rest-controller/member-getUser/http-response.adoc[]
-include::{snippets}/member-rest-controller/member-getUser/httpie-request.adoc[]
-include::{snippets}/member-rest-controller/member-getUser/path-parameters.adoc[]
-include::{snippets}/member-rest-controller/member-getUser/request-body.adoc[]
-include::{snippets}/member-rest-controller/member-getUser/response-body.adoc[]
-include::{snippets}/member-rest-controller/member-getUser/response-fields.adoc[]
-
-== member-productDetail
-include::{snippets}/member-rest-controller/member-productDetail/curl-request.adoc[]
-include::{snippets}/member-rest-controller/member-productDetail/http-request.adoc[]
-include::{snippets}/member-rest-controller/member-productDetail/http-response.adoc[]
-include::{snippets}/member-rest-controller/member-productDetail/httpie-request.adoc[]
-include::{snippets}/member-rest-controller/member-productDetail/path-parameters.adoc[]
-include::{snippets}/member-rest-controller/member-productDetail/request-body.adoc[]
-include::{snippets}/member-rest-controller/member-productDetail/response-body.adoc[]
-include::{snippets}/member-rest-controller/member-productDetail/response-fields.adoc[]
-
-== member-signup
-include::{snippets}/member-rest-controller/member-signup/curl-request.adoc[]
-include::{snippets}/member-rest-controller/member-signup/http-request.adoc[]
-include::{snippets}/member-rest-controller/member-signup/http-response.adoc[]
-include::{snippets}/member-rest-controller/member-signup/httpie-request.adoc[]
-include::{snippets}/member-rest-controller/member-signup/request-body.adoc[]
-include::{snippets}/member-rest-controller/member-signup/response-body.adoc[]
-include::{snippets}/member-rest-controller/member-signup/response-fields.adoc[]
+link:member-rest-controller-api.html[]

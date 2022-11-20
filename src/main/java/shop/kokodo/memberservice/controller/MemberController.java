@@ -108,12 +108,9 @@ public class MemberController {
     // [Feign Client] myPage 에서 내가 작성한 상품 리뷰 조회 API
     @GetMapping("/mypage/review/{memberId}/{currentpage}")
     public Response findByMemberId(@PathVariable long memberId, @PathVariable("currentpage") int page){
-        log.info("mypage 상품 리뷰 진입 : " + memberId + " / " + page);
         CircuitBreaker circuitBreaker = circuitBreakerFactory.create("reviewCircuit");
         PageMypageReviewDto list = circuitBreaker.run(() -> memberReviewClient.findByMemberId(memberId, page),
-                throwable -> new PageMypageReviewDto(new ArrayList<>(),999999));
-
-        log.info(list.toString());
+                throwable -> new PageMypageReviewDto(new ArrayList<>(),0));
 
         return Response.success(list);
     }
