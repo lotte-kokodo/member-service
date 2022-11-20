@@ -85,34 +85,34 @@ tasks.named('test') {
 }
 
 //==================Spring Rest docs==================
-test {
-    outputs.dir snippetsDir
-}
-
-asciidoctor {
-    dependsOn test
-    inputs.dir snippetsDir
-//    configurations 'asciidoctorExt'
-}
-
-task createDocument(type: Copy) {
-    dependsOn asciidoctor
-    asciidoctor
-    from file("build/docs/asciidoc")
-    into file("src/main/resources/static/docs")
-}
-
-//==================Spring Rest docs==================
-build {
-    dependsOn createDocument
-}
-
-bootJar {
-    dependsOn createDocument
-    from("${asciidoctor.outputDir}/html5") {
-        into 'static'
-    }
-}
+//test {
+//    outputs.dir snippetsDir
+//}
+//
+//asciidoctor {
+//    dependsOn test
+//    inputs.dir snippetsDir
+////    configurations 'asciidoctorExt'
+//}
+//
+//task createDocument(type: Copy) {
+//    dependsOn asciidoctor
+//    asciidoctor
+//    from file("build/docs/asciidoc")
+//    into file("src/main/resources/static/docs")
+//}
+//
+////==================Spring Rest docs==================
+//build {
+//    dependsOn createDocument
+//}
+//
+//bootJar {
+//    dependsOn createDocument
+//    from("${asciidoctor.outputDir}/html5") {
+//        into 'static'
+//    }
+//}
 
 configurations {
     //==================Spring Rest docs==================
